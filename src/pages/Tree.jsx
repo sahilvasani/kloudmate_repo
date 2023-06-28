@@ -5,6 +5,7 @@ import TreeView from "@mui/lab/TreeView";
 import TreeItem from "@mui/lab/TreeItem";
 import { Box, Button } from "@mui/material";
 import mainData from "../analyticsData.json";
+import { Rnd } from "react-rnd";
 
 const MainName = ({ e }) => {
   return (
@@ -51,6 +52,19 @@ function renderSpanTree(data, parentSpanId) {
   const spans =
     data?.filter((span) => span.parentSpanId === parentSpanId) || [];
 
+  spans.sort((a, b) => {
+    const aHasChild = data.some((span) => span.parentSpanId === a.spanId);
+    const bHasChild = data.some((span) => span.parentSpanId === b.spanId);
+
+    if (aHasChild && !bHasChild) {
+      return -1; // a has child spans, so it comes before b
+    } else if (!aHasChild && bHasChild) {
+      return 1; // b has child spans, so it comes before a
+    }
+
+    return a.spanId.localeCompare(b.spanId); // sort alphabetically when both have or don't have child spans
+  });
+
   return spans.map((span) => {
     return (
       <TreeItem nodeId={span.spanId} label={<MainName e={span} />}>
@@ -80,31 +94,52 @@ export const Tree = () => {
     setSelected(nodeIds);
   };
 
+  // height - 316 \\ 617 px
+
   return (
     <>
-      <div>
-        <Box sx={{ mb: 1 }}>
-          <Button onClick={handleExpandClick}>
-            {expanded.length === 0 ? "Expand all" : "Collapse all"}
-          </Button>
-        </Box>
-
-        <div style={{ display: "flex" }}>
-          <div style={{ height: "300px", width: "650px", overflow: "auto" }}>
-            <TreeView
-              aria-label="controlled"
-              defaultCollapseIcon={<ExpandMoreIcon />}
-              defaultExpandIcon={<ChevronRightIcon />}
-              expanded={expanded}
-              selected={selected}
-              onNodeToggle={handleToggle}
-              onNodeSelect={handleSelect}
-              multiSelect
-            >
-              {spanTree}
-            </TreeView>
+      <div
+        style={{
+          background: "yellow",
+        }}
+      >
+        <Rnd
+          default={{
+            x: 0,
+            y: 0,
+            width: "100%",
+            height: 190,
+          }}
+          minWidth={500}
+          minHeight={136}
+          bounds="window"
+          style={{
+            background: "whitesmoke",
+            overflow: "auto",
+          }}
+        >
+          <Box sx={{ mb: 1 }}>
+            <Button onClick={handleExpandClick}>
+              {expanded.length === 0 ? "Expand all" : "Collapse all"}
+            </Button>
+          </Box>
+          <div style={{ display: "flex" }}>
+            <div style={{ height: "100%", width: "617px", overflow: "hidden" }}>
+              <TreeView
+                aria-label="controlled"
+                defaultCollapseIcon={<ExpandMoreIcon />}
+                defaultExpandIcon={<ChevronRightIcon />}
+                expanded={expanded}
+                selected={selected}
+                onNodeToggle={handleToggle}
+                onNodeSelect={handleSelect}
+                multiSelect
+              >
+                {spanTree}
+              </TreeView>
+            </div>
           </div>
-        </div>
+        </Rnd>
       </div>
     </>
   );
