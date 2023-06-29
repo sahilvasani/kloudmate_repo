@@ -119,7 +119,7 @@ export const Alltabs = () => {
   };
 
   return (
-    <Box sx={{ width: "50%" }}>
+    <Box sx={{ width: "50%", height: "100%", overflow: "auto" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}

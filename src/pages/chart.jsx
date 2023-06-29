@@ -1,7 +1,8 @@
 import React from "react";
 import ReactFlow, { Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
-import {Alltabs} from "./Alltabs"
+import { Alltabs } from "./Alltabs";
+
 const edges = [
   {
     id: "1-2",
@@ -217,7 +218,14 @@ const nodes = [
 
 export const Chart = () => {
   return (
-    <div style={{ height: "450px", width: "100%",display:"flex",flexDirection:"row" }}>
+    <div
+      style={{
+        height: "450px",
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
       <div style={{ height: "100%", width: "50%" }}>
         <ReactFlow nodes={nodes} edges={edges} fitView>
           <Background color="#fff" />
@@ -228,12 +236,7 @@ export const Chart = () => {
           />
         </ReactFlow>
       </div>
-      <Alltabs/>
+      <Alltabs />
     </div>
   );
 };
-
-
-
-
-

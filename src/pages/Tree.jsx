@@ -1,4 +1,4 @@
-import React, { useRef, useEffect,useState } from "react";
+import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeView from "@mui/lab/TreeView";
@@ -7,13 +7,15 @@ import { Box, Button } from "@mui/material";
 import mainData from "../analyticsData.json";
 import { Rnd } from "react-rnd";
 import { Bar } from "./Bar";
+
 const MainName = ({ e }) => {
   return (
-    <span>
+    <span style={{ overflow: "hidden" }}>
       <span
         style={{
           fontSize: "13px",
           color: "rgb(66, 82, 110)",
+          overflow: "hidden",
         }}
       >
         {e.attrs["service.name"]}{" "}
@@ -23,12 +25,18 @@ const MainName = ({ e }) => {
           textTransform: "uppercase",
           fontSize: "13px",
           color: "rgb(66, 82, 110)",
+          overflow: "hidden",
         }}
       >
         {e.attrs["aspecto.calc.class"]}
       </span>{" "}
       <span
-        style={{ fontSize: "12px", color: "rgb(66, 82, 110)", fontWeight: 500 }}
+        style={{
+          fontSize: "12px",
+          color: "rgb(66, 82, 110)",
+          fontWeight: 500,
+          overflow: "hidden",
+        }}
       >
         {e.attrs["http.method"]}
       </span>{" "}
@@ -38,6 +46,7 @@ const MainName = ({ e }) => {
           color: "rgb(155, 161, 175)",
           fontWeight: 500,
           fontStyle: "italic",
+          overflow: "hidden",
         }}
       >
         {e.attrs["http.method"] === "GET"
@@ -74,10 +83,7 @@ function renderSpanTree(data, parentSpanId) {
   });
 }
 
-export const Tree = ({setHeight}) => {
-
-  const ref = useRef()
-
+export const Tree = ({ setHeight }) => {
   const [h, setH] = useState([]);
   const [expanded, setExpanded] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -92,27 +98,19 @@ export const Tree = ({setHeight}) => {
   };
 
   const handleToggle = (event, nodeIds) => {
-    var set1 = new Set(nodeIds);
-    console.log("sdsdss",idArray,nodeIds)
-const temp=  idArray?.filter(element => set1?.has(element));
+    // var set1 = new Set(nodeIds);
+    // const temp = idArray?.filter((element) => set1?.has(element));
+    // setNewids(temp);
 
-setNewids(temp)
     setExpanded(nodeIds);
   };
 
   const handleSelect = (event, nodeIds) => {
-    console.log("sss",nodeIds)
-
     setSelected(nodeIds);
   };
 
-  // height - 316 \\ 617 px
-useEffect(()=>{
-  const a = document?.getElementById("newid")
-},[
-  document?.getElementById("newid")?.scrollHeight
-])
-console.log("a",newids)
+  console.log("h++++++", h?.x, h?.y);
+
   return (
     <>
       <div
@@ -124,16 +122,18 @@ console.log("a",newids)
           default={{
             x: 0,
             y: 0,
-            width: "100%",
+            width: "99%",
             height: 190,
           }}
-          onResize={(e)=>setH(e)}
+          onResize={(e) => setH(e)}
           minWidth={500}
           minHeight={400}
           bounds="window"
           style={{
             background: "whitesmoke",
-            overflow: "auto",
+            overflowY: "auto",
+            overflowX: "hidden",
+            width: "99%",
           }}
         >
           <Box sx={{ mb: 1 }}>
@@ -141,8 +141,16 @@ console.log("a",newids)
               {expanded.length === 0 ? "Expand all" : "Collapse all"}
             </Button>
           </Box>
-          <div style={{ display: "flex" ,width: "100%"}} id="newid" ref={ref}>
-            <div style={{ height: "100%", width: "50%",display:"flex",flexDirection:"row", overflow: "hidden" }}>
+          <div style={{ display: "flex", width: "100%" }}>
+            <div
+              style={{
+                height: "100%",
+                width: "607px",
+                display: "flex",
+                flexDirection: "row",
+                overflow: "hidden",
+              }}
+            >
               <TreeView
                 aria-label="controlled"
                 defaultCollapseIcon={<ExpandMoreIcon />}
@@ -156,7 +164,7 @@ console.log("a",newids)
                 {spanTree}
               </TreeView>
             </div>
-           <Bar newids={newids}/>
+            <Bar newids={newids} />
           </div>
         </Rnd>
       </div>
