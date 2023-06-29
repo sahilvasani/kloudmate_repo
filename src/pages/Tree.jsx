@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect,useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeView from "@mui/lab/TreeView";
@@ -6,7 +6,7 @@ import TreeItem from "@mui/lab/TreeItem";
 import { Box, Button } from "@mui/material";
 import mainData from "../analyticsData.json";
 import { Rnd } from "react-rnd";
-
+import { Bar } from "./Bar";
 const MainName = ({ e }) => {
   return (
     <span>
@@ -74,7 +74,11 @@ function renderSpanTree(data, parentSpanId) {
   });
 }
 
-export const Tree = () => {
+export const Tree = ({setHeight}) => {
+
+  const ref = useRef()
+
+  const [h, setH] = useState([]);
   const [expanded, setExpanded] = useState([]);
   const [selected, setSelected] = useState([]);
   const spanTree = renderSpanTree(mainData.spans, undefined);
@@ -95,7 +99,12 @@ export const Tree = () => {
   };
 
   // height - 316 \\ 617 px
-
+useEffect(()=>{
+  const a = document?.getElementById("newid")
+  console.log("a",a.scrollHeight)
+},[
+  document?.getElementById("newid")?.scrollHeight
+])
   return (
     <>
       <div
@@ -110,8 +119,9 @@ export const Tree = () => {
             width: "100%",
             height: 190,
           }}
+          onResize={(e)=>setH(e)}
           minWidth={500}
-          minHeight={136}
+          minHeight={400}
           bounds="window"
           style={{
             background: "whitesmoke",
@@ -123,8 +133,8 @@ export const Tree = () => {
               {expanded.length === 0 ? "Expand all" : "Collapse all"}
             </Button>
           </Box>
-          <div style={{ display: "flex" }}>
-            <div style={{ height: "100%", width: "617px", overflow: "hidden" }}>
+          <div style={{ display: "flex" ,width: "100%"}} id="newid" ref={ref}>
+            <div style={{ height: "100%", width: "50%",display:"flex",flexDirection:"row", overflow: "hidden" }}>
               <TreeView
                 aria-label="controlled"
                 defaultCollapseIcon={<ExpandMoreIcon />}
@@ -138,6 +148,7 @@ export const Tree = () => {
                 {spanTree}
               </TreeView>
             </div>
+           <Bar/>
           </div>
         </Rnd>
       </div>

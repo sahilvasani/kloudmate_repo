@@ -1,14 +1,17 @@
 /* eslint-disable array-callback-return */
-import React from "react";
+import React, { useState } from "react";
 import { Navbar } from "./pages/Navbar";
 import { Alltabs } from "./pages/Alltabs";
 import { Tree } from "./pages/Tree";
-
+import "./App.css"
+import { Chart } from "./pages/chart";
 export const App = () => {
+  const [height,setHeight]= useState()
   return (
     <>
       <Navbar />
-      <Tree />
+      <Chart height={height}/>
+      <Tree setHeight={setHeight} />
     </>
   );
 };

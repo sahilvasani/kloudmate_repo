@@ -1,0 +1,17 @@
+.react-flow__handle {
+    opacity: 0;
+  }
+  .label-div-node {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+    height: 100%;
+    width: 100%;
+  }
+  .label-of-node {
+    height: 15px;
+    margin: 0;
+    padding: 0;
+  }

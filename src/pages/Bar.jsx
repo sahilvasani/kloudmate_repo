@@ -53,7 +53,7 @@ export const Bar = () => {
 
   return (
     <>
-      <div>
+      <div style={{width:"50%"}}> 
         <Chart
           chartType="Timeline"
           data={data}
