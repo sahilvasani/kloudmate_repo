@@ -81,6 +81,7 @@ export const Tree = ({setHeight}) => {
   const [h, setH] = useState([]);
   const [expanded, setExpanded] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [newids, setNewids] = useState([]);
   const spanTree = renderSpanTree(mainData.spans, undefined);
   const idArray = mainData?.spans.map((e, i) => {
     return e.spanId;
@@ -91,20 +92,27 @@ export const Tree = ({setHeight}) => {
   };
 
   const handleToggle = (event, nodeIds) => {
+    var set1 = new Set(nodeIds);
+    console.log("sdsdss",idArray,nodeIds)
+const temp=  idArray?.filter(element => set1?.has(element));
+
+setNewids(temp)
     setExpanded(nodeIds);
   };
 
   const handleSelect = (event, nodeIds) => {
+    console.log("sss",nodeIds)
+
     setSelected(nodeIds);
   };
 
   // height - 316 \\ 617 px
 useEffect(()=>{
   const a = document?.getElementById("newid")
-  console.log("a",a.scrollHeight)
 },[
   document?.getElementById("newid")?.scrollHeight
 ])
+console.log("a",newids)
   return (
     <>
       <div
@@ -148,7 +156,7 @@ useEffect(()=>{
                 {spanTree}
               </TreeView>
             </div>
-           <Bar/>
+           <Bar newids={newids}/>
           </div>
         </Rnd>
       </div>

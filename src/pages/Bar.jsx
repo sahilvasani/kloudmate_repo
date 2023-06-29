@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import mainData from "../analyticsData.json";
 import { Chart } from "react-google-charts";
 
@@ -35,9 +35,19 @@ const columns = [
   { type: "date", id: "End" },
 ];
 
-export const data = [columns, ...dataArray];
 
-export const Bar = () => {
+export const Bar = ({newids}) => {
+  const data =  [columns, ...dataArray];
+  
+  
+  console.log(newids)
+  const commonElements = useMemo(() => {
+    var set1 = new Set(newids);
+    const commonValues = dataArray.filter(element => set1.has(element[0]));
+    console.log({commonValues})
+    return[ columns,...commonValues];
+  }, [dataArray, newids]);
+
   const options = {
     timeline: {
       showRowLabels: false, // do not show label
@@ -56,7 +66,7 @@ export const Bar = () => {
       <div style={{width:"50%"}}> 
         <Chart
           chartType="Timeline"
-          data={data}
+          data={commonElements}
           width="100%"
           height="400px"
           options={options}
