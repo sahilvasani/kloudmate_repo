@@ -5,7 +5,6 @@ import TreeView from "@mui/lab/TreeView";
 import TreeItem from "@mui/lab/TreeItem";
 import { Box, Button } from "@mui/material";
 import mainData from "../analyticsData.json";
-import { Rnd } from "react-rnd";
 import { Bar } from "./Bar";
 
 const MainName = ({ e }) => {
@@ -83,8 +82,7 @@ function renderSpanTree(data, parentSpanId) {
   });
 }
 
-export const Tree = ({ setHeight }) => {
-  const [h, setH] = useState([]);
+export const Tree = () => {
   const [expanded, setExpanded] = useState([]);
   const [selected, setSelected] = useState([]);
   const [newids, setNewids] = useState([]);
@@ -93,62 +91,59 @@ export const Tree = ({ setHeight }) => {
     return e.spanId;
   });
 
+  function removeElementsWithParentSpanId(arr, spanId) {
+    const filteredArray = [];
+  
+    function removeDescendants(parentSpanId) {
+      const children = arr.filter((element) => element.parentSpanId === parentSpanId);
+      for (const child of children) {
+        removeDescendants(child.spanId);
+      }
+      arr = arr.filter((element) => element.parentSpanId !== parentSpanId);
+    }
+  
+    removeDescendants(spanId);
+  
+    for (const element of arr) {
+      if (element.spanId === spanId || element.parentSpanId !== spanId) {
+        filteredArray.push(element);
+      }
+    }
+  
+    return filteredArray;
+  }
+
   const handleExpandClick = () => {
     setExpanded((oldExpanded) => (oldExpanded.length === 0 ? idArray : []));
   };
 
   const handleToggle = (event, nodeIds) => {
-    // var set1 = new Set(nodeIds);
-    // const temp = idArray?.filter((element) => set1?.has(element));
-    // setNewids(temp);
-
     setExpanded(nodeIds);
   };
 
   const handleSelect = (event, nodeIds) => {
+
+    const temp = removeElementsWithParentSpanId(mainData.spans, nodeIds[0])
+setNewids(temp.map((data)=> data.spanId))
     setSelected(nodeIds);
   };
 
-  console.log("h++++++", h?.x, h?.y);
-
   return (
     <>
-      <div
-        style={{
-          background: "yellow",
-        }}
-      >
-        <Rnd
-          default={{
-            x: 0,
-            y: 0,
-            width: "99%",
-            height: 190,
-          }}
-          onResize={(e) => setH(e)}
-          minWidth={500}
-          minHeight={400}
-          bounds="window"
-          style={{
-            background: "whitesmoke",
-            overflowY: "auto",
-            overflowX: "hidden",
-            width: "99%",
-          }}
-        >
+      <div>
           <Box sx={{ mb: 1 }}>
             <Button onClick={handleExpandClick}>
               {expanded.length === 0 ? "Expand all" : "Collapse all"}
             </Button>
           </Box>
-          <div style={{ display: "flex", width: "100%" }}>
+          <div style={{ display: "flex", width: "100%", overflow:"auto" ,height:"680px" }}>
             <div
               style={{
-                height: "100%",
+                height: "680px",
                 width: "607px",
                 display: "flex",
                 flexDirection: "row",
-                overflow: "hidden",
+                // overflowY: "auto",
               }}
             >
               <TreeView
@@ -166,7 +161,6 @@ export const Tree = ({ setHeight }) => {
             </div>
             <Bar newids={newids} />
           </div>
-        </Rnd>
       </div>
     </>
   );

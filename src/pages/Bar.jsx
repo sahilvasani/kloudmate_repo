@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import mainData from "../analyticsData.json";
 import { Chart } from "react-google-charts";
 
@@ -37,12 +37,13 @@ const columns = [
 
 export const Bar = ({ newids }) => {
   const data = [columns, ...dataArray];
+  const [newData, setDewData] = useState(data);
 
-  // const commonElements = useMemo(() => {
-  //   var set1 = new Set(newids);
-  //   const commonValues = dataArray.filter((element) => set1.has(element[0]));
-  //   return [columns, ...commonValues];
-  // }, [dataArray, newids]);
+  useEffect(() => {
+    var set1 = new Set(newids);
+    const commonValues = dataArray.filter((element) => set1.has(element[0]));
+    setDewData ([columns, ...commonValues])
+  }, [dataArray, newids]);
 
   const options = {
     timeline: {
@@ -52,19 +53,19 @@ export const Bar = ({ newids }) => {
       barLabelStyle: { fontSize: 7 }, // For reduce height of bar
     },
     avoidOverlappingGridLines: false,
-    colors: ["#ff951f"], // For bar color
+    colors: ["black"], // For bar color
     backgroundColor: "#ffffff", // For bar background color
     alternatingRowStyle: false,
   };
 
   return (
     <>
-      <div style={{ width: "calc(100vw - 617px)" }}>
+      <div style={{ width: "calc(100vw - 616px)" ,height:"700px",overflow:"hidden" }}>
         <Chart
           chartType="Timeline"
-          data={data}
+          data={newData}
           width="100%"
-          height="100%"
+          height="740px"
           options={options}
         />
       </div>

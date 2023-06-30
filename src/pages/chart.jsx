@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactFlow, { Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
 import { Alltabs } from "./Alltabs";
@@ -216,17 +216,21 @@ const nodes = [
   },
 ];
 
-export const Chart = () => {
+export const Chart = ({sizes}) => {
+
+  console.log("aaaaa",sizes[0])
+
   return (
     <div
       style={{
-        height: "450px",
+        height: "100%",
         width: "100%",
         display: "flex",
         flexDirection: "row",
       }}
     >
-      <div style={{ height: "100%", width: "50%" }}>
+      
+      <div style={{ height: "90%", width: "50%" }}>
         <ReactFlow nodes={nodes} edges={edges} fitView>
           <Background color="#fff" />
           <Controls
