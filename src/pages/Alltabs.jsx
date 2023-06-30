@@ -10,6 +10,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import mainData from "../analyticsData.json";
 import ReactJson from 'react-json-view'
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -119,14 +120,21 @@ export const Alltabs = ({spanId}) => {
     setValue(newValue);
   };
 
-  const rowdata= mainData?.spans?.map((data)=>{ return  data.spanId===spanId})
+  const rowdata= mainData?.spans?.find((data)=>  data.spanId===spanId)
 
-console.log(rowdata)
+console.log(rowdata,spanId)
   return (
-    <Box sx={{ width: "50%", height: "100%", overflow: "auto" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
+    <Box sx={{ width: "50%", height: "100%" }}>
+
+<div style={{display:"flex",flexDirection:"row" ,alignItems:"center" }}>
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" transform="rotate(180)" color="#65748b"><g fill="none" fill-rule="evenodd"><g fill="currentColor"><path d="M10 1.515L18.485 10 10 18.485l-1.414-1.414L14.656 11H2V9h12.656l-6.07-6.071L10 1.515z"></path></g></g></svg>
+{rowdata.attrs["http.method"]}/{rowdata.attrs["http.path"]}
+</div>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", }}>
+       <Tabs
+     
+     value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
@@ -136,6 +144,7 @@ console.log(rowdata)
           <Tab label="RAW DATA" {...a11yProps(3)} />
         </Tabs>
       </Box>
+      <div style={{position:"absolute",top:"40px" ,height:"100%", overflow: "auto"}}>
       <TabPanel value={value} index={0}>
         Item One
       </TabPanel>
@@ -175,8 +184,9 @@ console.log(rowdata)
         })}
       </TabPanel>
       <TabPanel value={value} index={3}>
-      {/* <ReactJson src={my_important_json} theme="monokai" /> */}
+      <ReactJson src={rowdata} theme="summerfruit:inverted" />
       </TabPanel>
+        </div>
     </Box>
   );
 };
