@@ -216,7 +216,7 @@ const nodes = [
   },
 ];
 
-export const Chart = ({sizes}) => {
+export const Chart = ({sizes,spanId}) => {
 
   console.log("aaaaa",sizes[0])
 
@@ -240,7 +240,7 @@ export const Chart = ({sizes}) => {
           />
         </ReactFlow>
       </div>
-      <Alltabs />
+      <Alltabs spanId={spanId} />
     </div>
   );
 };

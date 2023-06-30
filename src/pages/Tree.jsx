@@ -82,7 +82,7 @@ function renderSpanTree(data, parentSpanId) {
   });
 }
 
-export const Tree = () => {
+export const Tree = ({setSpanId}) => {
   const [expanded, setExpanded] = useState([]);
   const [selected, setSelected] = useState([]);
   const [newids, setNewids] = useState([]);
@@ -122,7 +122,7 @@ export const Tree = () => {
   };
 
   const handleSelect = (event, nodeIds) => {
-
+    setSpanId(nodeIds[0])
     const temp = removeElementsWithParentSpanId(mainData.spans, nodeIds[0])
 setNewids(temp.map((data)=> data.spanId))
     setSelected(nodeIds);

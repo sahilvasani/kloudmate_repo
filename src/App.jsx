@@ -8,6 +8,8 @@ import { Chart } from "./pages/chart";
 import SplitPane, { Pane } from 'split-pane-react';
 import 'split-pane-react/esm/themes/default.css'
 export const App = () => {
+  const [spanId, setSpanId] = useState("");
+
   const [sizes, setSizes] = useState([
     "60%",
     '40%',
@@ -23,10 +25,10 @@ export const App = () => {
           onChange={setSizes}
         >
 
-          <Chart sizes={sizes}/>
+          <Chart sizes={sizes} spanId={spanId}/>
           <div style={{  background: '#fff' ,height:"100%" ,overflow:"auto" }}>
 
-          <Tree  />
+          <Tree setSpanId={setSpanId}  />
           </div>
         </SplitPane></div>
     </div>

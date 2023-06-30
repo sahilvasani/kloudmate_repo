@@ -8,7 +8,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import mainData from "../analyticsData.json";
+import ReactJson from 'react-json-view'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -111,13 +112,16 @@ Object.keys(Data.attrs)
   })
   ?.filter((a) => !!a);
 
-export const Alltabs = () => {
+export const Alltabs = ({spanId}) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const rowdata= mainData?.spans?.map((data)=>{ return  data.spanId===spanId})
+
+console.log(rowdata)
   return (
     <Box sx={{ width: "50%", height: "100%", overflow: "auto" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -171,7 +175,7 @@ export const Alltabs = () => {
         })}
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item four
+      {/* <ReactJson src={my_important_json} theme="monokai" /> */}
       </TabPanel>
     </Box>
   );
