@@ -195,20 +195,6 @@ export const attributes = [
   "express",
 ];
 
-//*------------- CHART PROPS FOR CSS OR OTHER ----------*//
-export const options = {
-  timeline: {
-    showRowLabels: false, // DO NOT SHOW LABELS
-    colorByRowLabel: true,
-    rowLabelStyle: { fontSize: 12 }, // FOR REDUCE HEIGHT OF BAR
-    barLabelStyle: { fontSize: 6.6 }, // FOR REDUCE HEIGHT OF BAR
-  },
-  avoidOverlappingGridLines: false,
-  colors: ["rgb(255, 149, 31)"], // FOR BAR COLOR
-  backgroundColor: "#ffffff", // FOR BAR BACKGROUND COLOR
-  alternatingRowStyle: false,
-};
-
 //*------------- LEFT ARROW ICON ----------*//
 export const leftArrow = () => {
   return (

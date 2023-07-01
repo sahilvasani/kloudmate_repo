@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 import mainData from "../analyticsData.json";
-import { columns, options } from "../Constant/constant";
+import { columns } from "../Constant/constant";
 
 //*------------- ROW DATA --------------*//
 const dataArray = mainData.spans
@@ -32,6 +32,18 @@ const dataArray = mainData.spans
 
 export const Bar = () => {
   const data = [columns, ...dataArray];
+  const options = {
+    timeline: {
+      showRowLabels: false, // DO NOT SHOW LABELS
+      colorByRowLabel: true,
+      rowLabelStyle: { fontSize: 12 }, // FOR REDUCE HEIGHT OF BAR
+      barLabelStyle: { fontSize: 6.6 }, // FOR REDUCE HEIGHT OF BAR
+    },
+    avoidOverlappingGridLines: false,
+    colors: ["rgb(255, 149, 31)"], // FOR BAR COLOR
+    backgroundColor: "#ffffff", // FOR BAR BACKGROUND COLOR
+    alternatingRowStyle: false,
+  };
 
   return (
     <>
