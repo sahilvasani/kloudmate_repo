@@ -1,102 +1,102 @@
 body {
   margin: 0 !important;
   padding: 0 !important;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  letter-spacing: 0.01071em;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+  letter-spacing: 0.01071em !important;
 }
 .react-flow__handle {
-  opacity: 0;
+  opacity: 0 !important;
 }
 .label-div-node {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 2px;
-  height: 100%;
-  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  height: 100% !important;
+  width: 100% !important;
 }
 .label-of-node {
-  height: 15px;
-  margin: 0;
-  padding: 0;
+  height: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .react-draggable-dragged {
-  width: 99%;
+  width: 99% !important;
 }
 .css-19kzrtu {
   padding: 0 !important;
 }
 .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-  font-size: 13px !important;
+  font-size: 13px !important ;
   font-weight: 600 !important;
 }
 .tabs-top-label-one {
-  color: rgb(251, 49, 87);
-  font-weight: 600;
-  font-size: 16px;
+  color: rgb(251, 49, 87) !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
 }
 .tabs-top-label-second {
-  color: rgb(56, 66, 84);
-  font-weight: normal;
-  font-size: 16px;
+  color: rgb(56, 66, 84) !important;
+  font-weight: normal !important;
+  font-size: 16px !important;
 }
 .tabs-label-main-div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 10px 0;
-  gap: 5px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  margin: 10px 0 !important;
+  gap: 5px !important;
 }
 .response-first-p-tag {
-  margin: 15px 0;
-  font-size: 14px;
+  margin: 15px 0 !important;
+  font-size: 14px !important;
 }
 .response-second-p-tag {
-  margin: 10px 0;
-  display: flex;
-  font-size: 12px;
-  padding: 5px 10px;
-  color: #384254;
-  background: #e5e7ef;
-  font-weight: 600;
-  align-items: center;
-  width: 800px;
+  margin: 10px 0 !important;
+  display: flex !important;
+  font-size: 12px !important;
+  padding: 5px 10px !important;
+  color: #384254 !important;
+  background: #e5e7ef !important;
+  font-weight: 600 !important;
+  align-items: center !important;
+  width: 800px !important;
 }
 .css-1g86id8-MuiTreeItem-content .MuiTreeItem-label {
   font-size: 15px !important;
 }
 .svg-icon-tree svg {
-  height: 14px;
-  width: 14px;
-  margin: 0 7px 0 -5px;
+  height: 14px !important;
+  width: 14px !important;
+  margin: 0 7px 0 -5px !important;
 }
 .chart-main-div svg path {
-  stroke: white;
+  stroke: white !important;
 }
 .vertical-line-main {
-  position: absolute;
-  display: flex;
-  justify-content: space-evenly;
-  z-index: 2;
-  width: 100%;
+  position: absolute !important;
+  display: flex !important;
+  justify-content: space-evenly !important;
+  z-index: 2 !important;
+  width: 100% !important;
 }
 .vl {
-  border-left: 1px solid #ded7d7;
-  opacity: 0.6;
-  height: 500px;
+  border-left: 1px solid #ded7d7 !important;
+  opacity: 0.6 !important;
+  height: 500px !important;
 }
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 3px !important;
 }
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px #000;
-  border-radius: 15px;
+  box-shadow: inset 0 0 5px #000 !important;
+  border-radius: 15px !important;
 }
 ::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 15px;
+  background: #000 !important;
+  border-radius: 15px !important;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #000;
+  background: #000 !important;
 }
