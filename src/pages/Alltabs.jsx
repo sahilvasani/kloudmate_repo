@@ -132,7 +132,7 @@ export const Alltabs = ({ spanId }) => {
                   </p>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {filteredAttrs[key]?.map((e, i) => {
+                  {filteredAttrs[key]?.map((e) => {
                     for (var i in e) {
                       return (
                         <>
