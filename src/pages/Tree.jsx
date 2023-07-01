@@ -1,11 +1,12 @@
 import { Bar } from "./Bar";
 import React, { useState } from "react";
-import TreeItem from "@mui/lab/TreeItem";
+import TreeItem, { treeItemClasses } from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
 import mainData from "../analyticsData.json";
 import { allIds } from "../Constant/constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { styled } from "@mui/material/styles";
 import {
   serviceIcon,
   databaseIcon,
@@ -99,6 +100,12 @@ const MainName = ({ e }) => {
   );
 };
 
+const StyledTreeItem = styled(TreeItem)(() => ({
+  [`& .${treeItemClasses.label}`]: {
+    fontSize: "15px !important",
+  },
+}));
+
 //*------------- RECURSION FUNCTION FOR RENDERING TREE ----------*//
 function renderSpanTree(data, parentSpanId) {
   const spans =
@@ -119,12 +126,12 @@ function renderSpanTree(data, parentSpanId) {
 
   return spans.map((span, index) => {
     return (
-      <TreeItem
+      <StyledTreeItem
         nodeId={span.spanId}
         label={<MainName e={span} index={index} />}
       >
         {renderSpanTree(data, span.spanId)}
-      </TreeItem>
+      </StyledTreeItem>
     );
   });
 }
