@@ -1,6 +1,6 @@
 import React from "react";
 import { Chart } from "react-google-charts";
-import mainData from "../analyticsData.json";
+import mainData from "../Constant/analyticsData.json";
 import { columns } from "../Constant/constant";
 
 //*------------- ROW DATA --------------*//

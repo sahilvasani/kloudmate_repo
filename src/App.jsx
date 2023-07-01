@@ -5,7 +5,7 @@ import { Chart } from "./pages/chart";
 import React, { useState } from "react";
 import { Navbar } from "./pages/Navbar";
 import SplitPane from "split-pane-react";
-import mainData from "./analyticsData.json";
+import mainData from "./Constant/analyticsData.json";
 import { Box, Button } from "@mui/material";
 import "split-pane-react/esm/themes/default.css";
 

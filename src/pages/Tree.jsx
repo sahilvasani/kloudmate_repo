@@ -2,7 +2,7 @@ import { Bar } from "./Bar";
 import React, { useState } from "react";
 import TreeItem, { treeItemClasses } from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
-import mainData from "../analyticsData.json";
+import mainData from "../Constant/analyticsData.json";
 import { allIds } from "../Constant/constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -79,7 +79,10 @@ const MainName = ({ e }) => {
           overflow: "hidden",
         }}
       >
-        {e.attrs["http.method"] === "GET"
+        {e.attrs["service.name"] === "stock-service" &&
+        e.attrs["aspecto.calc.class"] !== "database"
+          ? e.operationName
+          : e.attrs["http.method"] === "GET"
           ? e.attrs["host.name"]
           : e.attrs["aspecto.calc.class"] === "database"
           ? e.attrs["db.operation"]
@@ -121,7 +124,7 @@ function renderSpanTree(data, parentSpanId) {
       return 1; // B HAS CHILD SPANS, SO IT COMES BEFORE A
     }
 
-    return a.attrs["host.name"].localeCompare(b.attrs["host.name"]); // SORT ALPHABETICALLY WHEN BOTH HAVE OR DON'T HAVE CHILD SPANS
+    return a.attrs["host.name"].localeCompare(b.spanId); // SORT ALPHABETICALLY WHEN BOTH HAVE OR DON'T HAVE CHILD SPANS
   });
 
   return spans.map((span, index) => {

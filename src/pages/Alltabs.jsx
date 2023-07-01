@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import React, { useState } from "react";
 import ReactJson from "react-json-view";
-import mainData from "../analyticsData.json";
+import mainData from "../Constant/analyticsData.json";
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -68,10 +68,28 @@ export const Alltabs = ({ spanId }) => {
     <Box sx={{ width: "50%", height: "100%", padding: "20px" }}>
       <div className="tabs-label-main-div">
         {leftArrow()}
-        <span className="tabs-top-label-one">
-          {rowdata.attrs["http.method"]}
+        <span
+          className="tabs-top-label-one"
+          style={{
+            color:
+              rowdata.attrs["http.method"] === "DELETE"
+                ? "rgb(251, 49, 87)"
+                : rowdata.attrs["http.method"] === "POST"
+                ? "rgb(255, 148, 29)"
+                : "black",
+          }}
+        >
+          {rowdata.attrs["aspecto.calc.class"] === "database"
+            ? rowdata.attrs["db.operation"]
+            : rowdata.attrs["http.method"]}
         </span>
-        <span className="tabs-top-label-second">/purchase-order</span>
+        <span className="tabs-top-label-second">
+          {rowdata.attrs["aspecto.calc.class"] === "database"
+            ? `on collection "${rowdata.attrs["db.mongodb.collection"]}"`
+            : rowdata.attrs["http.method"] === "GET"
+            ? rowdata.attrs["host.name"]
+            : rowdata.operationName}
+        </span>
       </div>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
