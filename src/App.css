@@ -63,7 +63,7 @@ body {
   align-items: center !important;
   width: 800px !important;
 }
-.css-1g86id8-MuiTreeItem-content .MuiTreeItem-label {
+.MuiTreeItem-content .Mui-expaned .MuiTreeItem-label {
   font-size: 15px !important;
 }
 .svg-icon-tree svg {
