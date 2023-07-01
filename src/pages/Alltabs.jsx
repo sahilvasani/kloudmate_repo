@@ -79,10 +79,46 @@ export const Alltabs = ({ spanId }) => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="REQUEST" {...a11yProps(0)} />
-          <Tab label="RESPONSE" {...a11yProps(1)} />
-          <Tab label="ATTRIBUTES" {...a11yProps(2)} />
-          <Tab label="RAW DATA" {...a11yProps(3)} />
+          <Tab
+            label="REQUEST"
+            {...a11yProps(0)}
+            style={{
+              color: "#65748b",
+              fontWeight: "600",
+              fontSize: "12px",
+              marginRight: "32px",
+            }}
+          />
+          <Tab
+            label="RESPONSE"
+            {...a11yProps(1)}
+            style={{
+              color: "#65748b",
+              fontWeight: "600",
+              fontSize: "12px",
+              marginRight: "32px",
+            }}
+          />
+          <Tab
+            label="ATTRIBUTES"
+            {...a11yProps(2)}
+            style={{
+              color: "#65748b",
+              fontWeight: "600",
+              fontSize: "12px",
+              marginRight: "32px",
+            }}
+          />
+          <Tab
+            label="RAW DATA"
+            {...a11yProps(3)}
+            style={{
+              color: "#65748b",
+              fontWeight: "600",
+              fontSize: "12px",
+              marginRight: "32px",
+            }}
+          />
         </Tabs>
       </Box>
       <div
