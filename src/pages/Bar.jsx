@@ -37,7 +37,7 @@ export const Bar = () => {
       showRowLabels: false, // DO NOT SHOW LABELS
       colorByRowLabel: true,
       rowLabelStyle: { fontSize: 12 }, // FOR REDUCE HEIGHT OF BAR
-      barLabelStyle: { fontSize: 7 }, // FOR REDUCE HEIGHT OF BAR
+      barLabelStyle: { fontSize: 6.6 }, // FOR REDUCE HEIGHT OF BAR
     },
     avoidOverlappingGridLines: false,
     colors: ["rgb(255, 149, 31)"], // FOR BAR COLOR
