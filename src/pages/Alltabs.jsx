@@ -1,15 +1,16 @@
 /* eslint-disable array-callback-return */
-import React, { useState } from "react";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import React, { useState } from "react";
+import ReactJson from "react-json-view";
+import mainData from "../analyticsData.json";
 import Accordion from "@mui/material/Accordion";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { attributes, leftArrow } from "../Constant/constant";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import mainData from "../analyticsData.json";
-import ReactJson from 'react-json-view'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,103 +39,43 @@ function a11yProps(index) {
   };
 }
 
-const Data = {
-  traceId: "cf0294982ae42e429a4084ffb5fe460a",
-  spanId: "47d26bd0c4b125f2",
-  operationName: "/purchase-order",
-  links: [],
-  events: [],
-  startTime: "2023-06-06T14:45:59.486000128Z",
-  duration: 1848000000,
-  attrs: {
-    "aspecto.org": "80364a99-632b-49f0-83a7-8ba040c2de1b",
-    "aspecto.token": "00000000-0000-0000-0000-000000000000",
-    "aspecto.workspace": "10000000-0000-0000-0000-000000000000",
-    "deployment.environment": "production",
-    "host.name": "demo.aspecto.io",
-    "http.client_ip": "1.1.1.1",
-    "http.flavor": "1.1",
-    "http.host": "demo.aspecto.io",
-    "http.method": "DELETE",
-    "http.route": "/purchase-order",
-    "http.status_code": 200,
-    "http.status_text": "OK",
-    "http.target": "/purchase-order",
-    "http.url": "https://demo.aspecto.io/purchase-order",
-    "http.user_agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.146 Safari/537.36",
-    "net.host.name": "demo.aspecto.io",
-    "otel.library.name": "@opentelemetry/instrumentation-http",
-    "service.name": "orders-service",
-    "span.kind": "server",
-    "status.code": 0,
-    "status.message": "",
-    "telemetry.sdk.language": "nodejs",
-    "telemetry.sdk.name": "opentelemetry",
-    "telemetry.sdk.version": "1.9.0",
-    "vcs.branch.name": "main",
-    "aspecto.calc.class": "http",
-    "http.calc.route_or_path": "/purchase-order",
-    "http.calc.url": "https://demo.aspecto.io/purchase-order",
-    "http.calc.path": "/purchase-order",
-    "http.calc.hostname": "demo.aspecto.io",
-    "http.calc.host": "demo.aspecto.io",
-    "http.calc.scheme": "https",
-    "http.calc.query": "{}",
-    "http.calc.route": "/purchase-order",
-  },
-};
-
-const attributes = [
-  "deployment",
-  "host",
-  "http",
-  "net",
-  "service",
-  "telemetry",
-  "vcs",
-  "db",
-  "express",
-];
-
-const filteredAttrs = {};
-const setvalue = (name, value) => {
-  filteredAttrs[name] = [...(filteredAttrs[name] || []), value];
-};
-
-Object.keys(Data.attrs)
-  .forEach((key) => {
-    const aa = attributes.find(
-      (att) => key.includes(att) && !key.includes("calc")
-    );
-    if (aa) {
-      setvalue(aa, { [key]: Data.attrs[key] });
-    }
-  })
-  ?.filter((a) => !!a);
-
-export const Alltabs = ({spanId}) => {
+export const Alltabs = ({ spanId }) => {
   const [value, setValue] = useState(0);
 
+  //*------------- CHANGE TAB ----------*//
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const rowdata= mainData?.spans?.find((data)=>  data.spanId===spanId)
+  //*------- FIND ATTRIBUTES IN DATA OF SELECTED TREE NODE-------*//
+  const rowdata = mainData?.spans?.find((data) => data.spanId === spanId);
+  const filteredAttrs = {};
+  const setvalue = (name, value) => {
+    filteredAttrs[name] = [...(filteredAttrs[name] || []), value];
+  };
+  Object.keys(rowdata.attrs)
+    .forEach((key) => {
+      const aa = attributes.find(
+        (att) => key.includes(att) && !key.includes("calc")
+      );
+      if (aa) {
+        setvalue(aa, { [key]: rowdata.attrs[key] });
+      }
+    })
+    ?.filter((a) => !!a);
 
-console.log(rowdata,spanId)
   return (
-    <Box sx={{ width: "50%", height: "100%" }}>
-
-<div style={{display:"flex",flexDirection:"row" ,alignItems:"center" }}>
-
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" transform="rotate(180)" color="#65748b"><g fill="none" fill-rule="evenodd"><g fill="currentColor"><path d="M10 1.515L18.485 10 10 18.485l-1.414-1.414L14.656 11H2V9h12.656l-6.07-6.071L10 1.515z"></path></g></g></svg>
-{rowdata.attrs["http.method"]}/{rowdata.attrs["http.path"]}
-</div>
-      <Box sx={{ borderBottom: 1, borderColor: "divider", }}>
-       <Tabs
-     
-     value={value}
+    <Box sx={{ width: "50%", height: "100%", padding: "20px" }}>
+      <div className="tabs-label-main-div">
+        {leftArrow()}
+        <span className="tabs-top-label-one">
+          {rowdata.attrs["http.method"]}
+        </span>
+        <span className="tabs-top-label-second">/purchase-order</span>
+      </div>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
@@ -144,49 +85,78 @@ console.log(rowdata,spanId)
           <Tab label="RAW DATA" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <div style={{position:"absolute",top:"40px" ,height:"100%", overflow: "auto"}}>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {Object.keys(filteredAttrs).map((key, index) => {
-          return (
-            <Accordion key={key}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel${index}a-content`}
-                id={`panel${index}a-header`}
-                key={key}
-              >
-                <p>{key}</p>
-              </AccordionSummary>
-              <AccordionDetails>
-                {filteredAttrs[key]?.map((e, i) => {
-                  for (var i in e) {
-                    return (
-                      <>
-                        <Typography>
-                          <span style={{ color: "black", fontWeight: "600" }}>
-                            {i}
-                          </span>{" "}
-                          : {e[i]}
-                        </Typography>
-                      </>
-                    );
-                  }
-                })}
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-      <ReactJson src={rowdata} theme="summerfruit:inverted" />
-      </TabPanel>
-        </div>
+      <div
+        style={{
+          position: "absolute",
+          height: "100%",
+          overflow: "auto",
+          width: "750px",
+        }}
+      >
+        <TabPanel value={value} index={0}>
+          <p className="response-first-p-tag">
+            <span style={{ fontWeight: "700" }}>URL:</span>{" "}
+            <span>https://demo.aspecto.io/purchase-order</span>
+          </p>
+          <p className="response-second-p-tag">HEADERS</p>
+          <p>empty</p>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <p className="response-first-p-tag">
+            <span style={{ fontWeight: "700" }}>Status Code</span>{" "}
+            <span style={{ color: "rgb(5, 205, 104)", fontWeight: "600" }}>
+              200
+            </span>
+          </p>
+          <p className="response-second-p-tag">HEADERS</p>
+          <p>empty</p>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          {Object.keys(filteredAttrs).map((key, index) => {
+            return (
+              <Accordion key={key}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`panel${index}a-content`}
+                  id={`panel${index}a-header`}
+                  key={key}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      color: "rgb(155, 161, 175)",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {key}
+                  </p>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {filteredAttrs[key]?.map((e, i) => {
+                    for (var i in e) {
+                      return (
+                        <>
+                          <Typography>
+                            <span style={{ color: "black", fontWeight: "600" }}>
+                              {i}
+                            </span>{" "}
+                            : {e[i]}
+                          </Typography>
+                        </>
+                      );
+                    }
+                  })}
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <div style={{ marginTop: "10px" }}>
+            <ReactJson src={rowdata} theme="summerfruit:inverted" />
+          </div>
+        </TabPanel>
+      </div>
     </Box>
   );
 };

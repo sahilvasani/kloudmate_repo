@@ -1,20 +1,45 @@
+import { Bar } from "./Bar";
 import React, { useState } from "react";
+import TreeItem from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
+import mainData from "../analyticsData.json";
+import { allIds } from "../Constant/constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeView from "@mui/lab/TreeView";
-import TreeItem from "@mui/lab/TreeItem";
-import { Box, Button } from "@mui/material";
-import mainData from "../analyticsData.json";
-import { Bar } from "./Bar";
+import {
+  serviceIcon,
+  databaseIcon,
+  httpClientIcon,
+} from "../Constant/constant";
 
+//*------------- CHECKING CONDITION ICON COLOR ----------*//
+const condition = (e) => {
+  return e === "authentication-service"
+    ? "rgb(204, 118, 0)"
+    : e === "stock-service"
+    ? "rgb(206, 146, 216)"
+    : "rgb(255, 149, 31)";
+};
+
+//*------------- TREE LABEL DETAILS ----------*//
 const MainName = ({ e }) => {
   return (
     <span style={{ overflow: "hidden" }}>
+      <span className="svg-icon-tree">
+        {e.attrs["aspecto.calc.class"] === "database"
+          ? databaseIcon(condition(e.attrs["service.name"]))
+          : (e.attrs["service.name"] === "orders-service" ||
+              e.attrs["service.name"] === "authentication-service") &&
+            e.attrs["http.method"] === "GET"
+          ? httpClientIcon(condition(e.attrs["service.name"]))
+          : serviceIcon(condition(e.attrs["service.name"]))}
+      </span>
       <span
         style={{
           fontSize: "13px",
           color: "rgb(66, 82, 110)",
           overflow: "hidden",
+          fontWeight: "600",
         }}
       >
         {e.attrs["service.name"]}{" "}
@@ -27,7 +52,9 @@ const MainName = ({ e }) => {
           overflow: "hidden",
         }}
       >
-        {e.attrs["aspecto.calc.class"]}
+        {e.attrs["aspecto.calc.class"] === "database"
+          ? ""
+          : e.attrs["aspecto.calc.class"]}
       </span>{" "}
       <span
         style={{
@@ -37,25 +64,42 @@ const MainName = ({ e }) => {
           overflow: "hidden",
         }}
       >
-        {e.attrs["http.method"]}
+        {e.attrs["http.method"] ? e.attrs["http.method"] : e.attrs["db.system"]}
       </span>{" "}
       <span
         style={{
           fontSize: "12px",
-          color: "rgb(155, 161, 175)",
-          fontWeight: 500,
+          color:
+            e.attrs["aspecto.calc.class"] === "database"
+              ? "black"
+              : "rgb(155, 161, 175)",
+          fontWeight: 600,
           fontStyle: "italic",
           overflow: "hidden",
         }}
       >
         {e.attrs["http.method"] === "GET"
           ? e.attrs["host.name"]
+          : e.attrs["aspecto.calc.class"] === "database"
+          ? e.attrs["db.operation"]
           : e.operationName}
+      </span>
+      <span
+        style={{
+          fontSize: "12px",
+          color: "rgb(155, 161, 175)",
+          fontWeight: 600,
+          overflow: "hidden",
+        }}
+      >
+        {" "}
+        {e.attrs["aspecto.calc.class"] === "database" ? e.attrs["db.name"] : ""}
       </span>
     </span>
   );
 };
 
+//*------------- RECURSION FUNCTION FOR RENDERING TREE ----------*//
 function renderSpanTree(data, parentSpanId) {
   const spans =
     data?.filter((span) => span.parentSpanId === parentSpanId) || [];
@@ -65,102 +109,66 @@ function renderSpanTree(data, parentSpanId) {
     const bHasChild = data.some((span) => span.parentSpanId === b.spanId);
 
     if (aHasChild && !bHasChild) {
-      return -1; // a has child spans, so it comes before b
+      return -1; // A HAS CHILD SPANS, SO IT COMES BEFORE B
     } else if (!aHasChild && bHasChild) {
-      return 1; // b has child spans, so it comes before a
+      return 1; // B HAS CHILD SPANS, SO IT COMES BEFORE A
     }
 
-    return a.spanId.localeCompare(b.spanId); // sort alphabetically when both have or don't have child spans
+    return a.attrs["host.name"].localeCompare(b.attrs["host.name"]); // SORT ALPHABETICALLY WHEN BOTH HAVE OR DON'T HAVE CHILD SPANS
   });
 
-  return spans.map((span) => {
+  return spans.map((span, index) => {
     return (
-      <TreeItem nodeId={span.spanId} label={<MainName e={span} />}>
+      <TreeItem
+        nodeId={span.spanId}
+        label={<MainName e={span} index={index} />}
+      >
         {renderSpanTree(data, span.spanId)}
       </TreeItem>
     );
   });
 }
 
-export const Tree = ({setSpanId}) => {
-  const [expanded, setExpanded] = useState([]);
+export const Tree = ({ setSpanId }) => {
   const [selected, setSelected] = useState([]);
-  const [newids, setNewids] = useState([]);
   const spanTree = renderSpanTree(mainData.spans, undefined);
-  const idArray = mainData?.spans.map((e, i) => {
-    return e.spanId;
-  });
 
-  function removeElementsWithParentSpanId(arr, spanId) {
-    const filteredArray = [];
-  
-    function removeDescendants(parentSpanId) {
-      const children = arr.filter((element) => element.parentSpanId === parentSpanId);
-      for (const child of children) {
-        removeDescendants(child.spanId);
-      }
-      arr = arr.filter((element) => element.parentSpanId !== parentSpanId);
-    }
-  
-    removeDescendants(spanId);
-  
-    for (const element of arr) {
-      if (element.spanId === spanId || element.parentSpanId !== spanId) {
-        filteredArray.push(element);
-      }
-    }
-  
-    return filteredArray;
-  }
-
-  const handleExpandClick = () => {
-    setExpanded((oldExpanded) => (oldExpanded.length === 0 ? idArray : []));
-  };
-
-  const handleToggle = (event, nodeIds) => {
-    setExpanded(nodeIds);
-  };
-
+  //*------------- SELECT TREE ROW ----------*//
   const handleSelect = (event, nodeIds) => {
-    setSpanId(nodeIds[0])
-    const temp = removeElementsWithParentSpanId(mainData.spans, nodeIds[0])
-setNewids(temp.map((data)=> data.spanId))
+    setSpanId(nodeIds[0]);
     setSelected(nodeIds);
   };
 
   return (
     <>
-      <div>
-          <Box sx={{ mb: 1 }}>
-            <Button onClick={handleExpandClick}>
-              {expanded.length === 0 ? "Expand all" : "Collapse all"}
-            </Button>
-          </Box>
-          <div style={{ display: "flex", width: "100%", overflow:"auto" ,height:"680px" }}>
-            <div
-              style={{
-                height: "680px",
-                width: "607px",
-                display: "flex",
-                flexDirection: "row",
-                // overflowY: "auto",
-              }}
-            >
-              <TreeView
-                aria-label="controlled"
-                defaultCollapseIcon={<ExpandMoreIcon />}
-                defaultExpandIcon={<ChevronRightIcon />}
-                expanded={expanded}
-                selected={selected}
-                onNodeToggle={handleToggle}
-                onNodeSelect={handleSelect}
-                multiSelect
-              >
-                {spanTree}
-              </TreeView>
-            </div>
-            <Bar newids={newids} />
-          </div>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          overflow: "auto",
+        }}
+      >
+        <div
+          style={{
+            height: "656px",
+            width: "493px",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <TreeView
+            aria-label="controlled"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            expanded={allIds}
+            selected={selected}
+            onNodeSelect={handleSelect}
+            multiSelect
+          >
+            {spanTree}
+          </TreeView>
+        </div>
+        <Bar />
       </div>
     </>
   );

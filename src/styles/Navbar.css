@@ -59,6 +59,7 @@
   height: 100%;
   font-size: 16px;
   color: rgb(155, 161, 175);
+  padding: 0 10px;
 }
 .logsbutton {
   width: 180px;
