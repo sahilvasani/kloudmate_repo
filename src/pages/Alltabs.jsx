@@ -144,7 +144,6 @@ export const Alltabs = ({ spanId }) => {
           position: "absolute",
           height: "100%",
           overflow: "auto",
-          width: "750px",
         }}
       >
         <TabPanel value={value} index={0}>
