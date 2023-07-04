@@ -189,7 +189,7 @@ export const Alltabs = ({ spanId }) => {
                     for (var i in e) {
                       return (
                         <>
-                          <Typography>
+                          <Typography sx={{width:"48vw"}}>
                             <span style={{ color: "black", fontWeight: "600" }}>
                               {i}
                             </span>{" "}
